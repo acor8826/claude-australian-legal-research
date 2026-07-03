@@ -49,8 +49,12 @@ _Area ∈ {legislation, case law, evidence, jurisdiction, secondary, red-team} �
 - <one line per verified authority/provision> → <URL>
 
 ## Authorities table (running)
-| Authority | Court/date | Treatment | How-cited | Validation | URL |
-|-----------|-----------|-----------|-----------|------------|-----|
+| Authority (AGLC4) | Court/date | Treatment | How-cited | Validation | Source tier | URL |
+|-------------------|-----------|-----------|-----------|------------|-------------|-----|
+
+_AGLC4 form per `references/aglc4-citation.md`. Source tier per `references/retrieval-mechanics.md` —
+a Jade URL (tier 2) may stand here, but tier 1 is required before anything is relied on in a filed
+document._
 
 ## Follow-up / spawned-task register
 - Cycle <N> → Cycle <N+1>: <new task> — triggered by <finding>
@@ -70,7 +74,10 @@ You are the **<AREA> agent** for a legal-research cycle.
 
 FIRST: read `references/retrieval-mechanics.md` in full before any fetch. Use only the
 retrieval paths it specifies. Do NOT use AustLII SINO/LawCite (Cloudflare-walled) or bare
-`site:austlii` index pages.
+`site:austlii` index pages. Jade (jade.io) 403s bare fetches — resolve via `site:jade.io`
+search and open in Chrome, per the Jade section of that file.
+<if AREA is case-law, or this is a validation check: also read `references/aglc4-citation.md`
+— every citation you output is AGLC4-formatted from verified metadata.>
 
 ## Research goal (read-only context)
 - Question(s): <…>
@@ -125,6 +132,7 @@ _Tasks: <list> · Paths run: <search paths used>_
 - **Holding / proposition (paraphrased):** <what it stands for, in the agent's words>
 - **How-cited vs Nobarani/target (if a citator task):** followed | applied | cited-in-argument | mentioned-as-history | distinguished — at <[N]>
 - **Proximity (analogical strategy only):** factual <high/med/low> · doctrinal <high/med/low>
+- **AGLC4 citation:** <combined form per `references/aglc4-citation.md`, from verified metadata only>
 - **Verification flag:** verified | unverified (could not fetch) | suspect (mismatch)
 
 ## Negative findings
@@ -146,6 +154,7 @@ _Tasks: <list> · Paths run: <search paths used>_
 - **Holding (paraphrased):** A denial of procedural fairness is a substantial wrong warranting a
   new trial; the party need not prove a different outcome would have followed.
 - **How-cited vs target:** n/a (this is the target case)
+- **AGLC4 citation:** *Nobarani v Mariconte* [2018] HCA 36; (2018) 265 CLR 236, [47]
 - **Verification flag:** verified
 ```
 
@@ -334,9 +343,16 @@ Present the cases in a **table**. Three non-negotiable column rules: **every cas
 <best adverse authority, distinguishing arguments, currency risks — and how to meet them. Same table rules if tabulated.>
 
 ## 9. Authorities / verification table
-Case names hyperlinked here too.
-| Authority (hyperlinked) | Court/date | Treatment | How-cited | Validation | Source tier | URL |
-|---|---|---|---|---|---|---|
+Case names hyperlinked here too; the AGLC4 column carries the combined citation per `references/aglc4-citation.md`.
+| Authority (hyperlinked) | AGLC4 citation | Court/date | Treatment | How-cited | Validation | Source tier | URL |
+|---|---|---|---|---|---|---|---|
+
+### 9a. Table of Authorities (AGLC4 — final cycle)
+In the final cycle's memo, append an AGLC4 Table of Authorities built from the validated
+authorities table, ordered per `references/aglc4-citation.md` §5: **Cases** (alphabetical),
+**Legislation** (Cth first, then states/territories, alphabetical within each), **Other**
+(secondary, by author). Only validated entries; a suspect entry appears with its flag, never
+silently cleaned.
 
 ## 10. Orchestrator evaluation & next step
 - What is now answered: <…>

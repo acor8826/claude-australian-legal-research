@@ -35,10 +35,13 @@ Never leave a slot empty — the agent sees nothing else.
 > closest factual analogues, and the citator trail around the key cases — every one verified on a
 > primary source.
 >
-> **FIRST:** read `references/retrieval-mechanics.md` in full before any fetch. Prefer jurisd
+> **FIRST:** read `references/retrieval-mechanics.md` in full before any fetch, and
+> `references/aglc4-citation.md` for citation formatting. Prefer jurisd
 > Layer 0 if it is registered (`search_cases` for topic/authority search, `fetch_document_text`
 > for full text); for **who-cites-this-case**, jurisd v0.5.0 has **no live citator** — use the
-> citator recipe in `references/retrieval-mechanics.md`, seeded by `search_cases` on the case name.
+> citator recipe in `references/retrieval-mechanics.md` (Jade's free-tier citation panel is the
+> best seed; harvest it via `site:jade.io` search + Chrome, then confirm each candidate on tier 1),
+> seeded by `search_cases` on the case name.
 > Otherwise use the fallback stack. **Never**
 > use AustLII SINO/LawCite (Cloudflare-walled) or bare `site:austlii` index pages.
 >
@@ -72,6 +75,8 @@ Never leave a slot empty — the agent sees nothing else.
 >   application of the ratio; say which, and never present a history mention as endorsement.
 > - For the **analogical** strategy, record **proximity**: factual high/med/low · doctrinal
 >   high/med/low.
+> - Record the **AGLC4 citation** (combined medium-neutral + authorised-report form, per
+>   `references/aglc4-citation.md`), built only from the verified header metadata you fetched.
 > - Set a **verification flag**: `verified | unverified (could not fetch) | suspect (mismatch)`.
 >
 > Then **CONVERGE**: dedupe the same case found by multiple strategies into one block, and produce
@@ -106,8 +111,10 @@ Never leave a slot empty — the agent sees nothing else.
   classification). Backward: what the leading case itself relies on. The **citator recipe** in
   retrieval-mechanics.md is the forward tool — jurisd v0.5.0 has no live citator, and its offline
   `find_citing` is legislation-only, so it returns nothing for case citators; seed the recipe with
-  `search_cases` on the case name. Trap: treating every forward citation as support — most are
-  history or argument mentions; classify each.
+  `search_cases` on the case name and with **Jade's free-tier citation panel** (resolve the case
+  via `site:jade.io "<citation>"`, open the article in Chrome, harvest the cases-citing panel —
+  tier-2 leads, each confirmed on tier 1). Trap: treating every forward citation as support — most
+  are history or argument mentions; classify each.
 
 ## Ranking method — authority × proximity × recency
 
@@ -148,7 +155,7 @@ treatment occurs.
 One markdown file, `agent-reports/cycle<N>-caselaw.md`, populated to the **Case-law agent report
 schema** in `references/templates.md` §3.1 — one block per case (citation; court/date/bench; verified
 source URL; factual summary; relevant paragraphs; minimum verbatim quote(s); paraphrased holding;
-how-cited; proximity for analogical hits; verification flag), plus a **Negative findings** section
+how-cited; proximity for analogical hits; AGLC4 citation; verification flag), plus a **Negative findings** section
 listing the paths that returned nothing on point. Required fields are mandatory; a case missing one
 is treated as unresolved by the orchestrator's convergence.
 

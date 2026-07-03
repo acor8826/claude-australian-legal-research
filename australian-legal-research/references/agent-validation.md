@@ -20,8 +20,10 @@ Every check subagent receives: the **candidate-authority list** for this cycle (
 pinpoints + the propositions/quotes attributed to them, from the area-agents' reports); the
 **temporal anchor**; a pointer to read `references/retrieval-mechanics.md` before any fetch (jurisd
 Layer 0 first — `resolve_citation`, `fetch_document_text`; for treatment/citing-cases the citator
-recipe (jurisd v0.5.0 has no live citator); else the fallback
-stack); its role prompt (below); and its output path `agent-reports/cycle<N>-validation-<check>.md`.
+recipe (jurisd v0.5.0 has no live citator; Jade's free-tier citation panel is the best seed); else
+the fallback stack) and `references/aglc4-citation.md` (the citation-format rules the existence
+check tests against); its role prompt (below); and its output path
+`agent-reports/cycle<N>-validation-<check>.md`.
 
 Hard constraints in every check's prompt: work only your own check; ground every finding in a fresh
 fetch performed during this dispatch (never from training-data memory); confirm on the highest source
@@ -34,7 +36,12 @@ tier reachable (see ranking); if an authority cannot be located after reasonable
 > You are the **Existence check**. For every candidate authority, confirm it exists on a primary
 > source in the form cited: party names (correct order), court, year, medium-neutral citation number,
 > and authorised report volume/page all match. Use jurisd `resolve_citation` (or the fallback) to
-> locate it by neutral cite, by report cite, and by party name — whichever resolves first. Record
+> locate it by neutral cite, by report cite, and by party name — whichever resolves first. A Jade
+> article (tier 2 — resolve via `site:jade.io "<citation>"`, open in Chrome) is acceptable evidence
+> of existence, but anything destined for a filed document still needs tier-1 confirmation. Check
+> the **AGLC4 citation string** against the fetched metadata per `references/aglc4-citation.md`: a
+> formatting slip is corrected in your note; an element mismatch (wrong year, court, number, or
+> report volume/page) is a `FAIL`. Record
 > `PASS` (exists, form correct), `FAIL` (cannot locate after listed attempts, or the form is wrong —
 > state the discrepancy), or `DISPUTED`. Do not check pinpoint, quote, or treatment. Write to
 > `references/templates.md` §3.7.
@@ -93,9 +100,10 @@ never report it as endorsement.
 
 Confirm on the highest tier reachable; anything to be **relied on in a filed document** must be
 confirmed on a **tier-1 primary source** (AustLII / CaseLaw NSW / HCA site / legislation registers,
-or a jurisd fetch of same). Tiers below primary — official-party host, chambers/law-society summary,
-general aggregator — may *surface* an item but are not sufficient for court reliance. Record the tier
-consulted for each authority.
+or a jurisd fetch of same). Tiers below primary — official-party host / authentic aggregator
+(including free-tier Jade), chambers/law-society summary, general aggregator — may *surface* an
+item (Jade is good enough for existence and text) but are not sufficient for court reliance. Record
+the tier consulted for each authority.
 
 ## Reconciliation (orchestrator's sixth pass)
 

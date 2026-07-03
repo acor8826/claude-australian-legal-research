@@ -1,6 +1,6 @@
 # Australian Legal Research — a Claude Code Skill
 
-A multi-agent [Claude Code](https://claude.com/claude-code) **skill** for Australian legal research and citation verification. It retrieves Australian primary law from AustLII, CaseLaw NSW, and the legislation registers, then runs an orchestrated, self-validating research pass over a legal question — never citing a case, quote, or statutory provision from memory.
+A multi-agent [Claude Code](https://claude.com/claude-code) **skill** for comprehensive, red-teamed Australian legal research on freely available legal databases. It retrieves Australian primary law from AustLII, CaseLaw NSW, the legislation registers, and BarNet Jade's free tier — with web search as a first-class discovery path — then runs an orchestrated, self-validating research pass over a legal question, with AGLC4-formatted citations. It never cites a case, quote, or statutory provision from memory.
 
 > ⚠️ **Not legal advice.** This skill is a research aid. It surfaces and verifies authorities; it does not give legal advice. Always confirm results against the primary source before relying on them.
 
@@ -8,8 +8,8 @@ A multi-agent [Claude Code](https://claude.com/claude-code) **skill** for Austra
 
 The skill does two things:
 
-- **Retrieves** Australian primary law — case law, legislation, and topical searches — from [AustLII](https://www.austlii.edu.au), [CaseLaw NSW](https://www.caselaw.nsw.gov.au), the [Federal Register of Legislation](https://www.legislation.gov.au), and [NSW legislation](https://legislation.nsw.gov.au).
-- **Researches** — runs an orchestrated, multi-agent pass over a legal question and **self-validates every authority** (existence, pinpoint, quote, treatment, red-team) before reporting it.
+- **Retrieves** Australian primary law — case law, legislation, and topical searches — from [AustLII](https://www.austlii.edu.au), [CaseLaw NSW](https://www.caselaw.nsw.gov.au), the [Federal Register of Legislation](https://www.legislation.gov.au), [NSW legislation](https://legislation.nsw.gov.au), and [BarNet Jade](https://jade.io) (free tier — judgment text and citator leads), using web search as a first-class discovery path.
+- **Researches** — runs an orchestrated, multi-agent pass over a legal question — including a dedicated **red-team** agent building the adversary's case — and **self-validates every authority** (existence, pinpoint, quote, treatment, red-team currency) before reporting it, with AGLC4-formatted citations and a Table of Authorities.
 
 ### Architecture: orchestration → diverge-converge
 
@@ -26,7 +26,7 @@ Verification produces three states only — **verified, suspect, or overridden**
 
 ## Optional: the `jurisd` MCP server
 
-The skill ships no MCP server but **prefers one if present**. When the optional `jurisd` MCP server is registered, its tools are the preferred (Layer-0) retrieval path — authority-ranked AustLII search, clean full-text fetch, deterministic provision lookup, an offline citation-graph tool, and AGLC4 formatting. Without it, the skill drives the runtime's own primitives (`WebFetch`, web search, Claude in Chrome). Either way the skill works — `jurisd` is preferred, never required.
+The skill ships no MCP server but **prefers one if present**. When the optional [`jurisd`](https://github.com/russellbrenner/jurisd) MCP server is registered, its tools are the preferred (Layer-0) retrieval path — authority-ranked AustLII search, clean full-text fetch, deterministic provision lookup, an offline citation-graph tool, and AGLC4 formatting. Without it, the skill covers the same ground with the runtime's own primitives (`WebFetch`, web search, Claude in Chrome) plus its references: search and fetch via the URL cheat sheets, citation resolution via the verification gate, who-cites-what via the free-source citator recipe, and AGLC4 formatting via `references/aglc4-citation.md`. Either way the skill works — `jurisd` is preferred, never required.
 
 ## Installation
 
@@ -62,7 +62,8 @@ Once installed, the skill triggers automatically on Australian legal research re
 australian-legal-research/
 ├── SKILL.md                       # Skill definition + orchestration architecture
 └── references/
-    ├── retrieval-mechanics.md     # Layer-0 precedence, URL patterns, fetch recovery
+    ├── retrieval-mechanics.md     # Layer-0 precedence, URL patterns, Jade mechanics, fetch recovery
+    ├── aglc4-citation.md          # AGLC4 formatting + Table of Authorities rules
     ├── agent-legislation.md       # Per-area agent briefs …
     ├── agent-caselaw.md
     ├── agent-evidence.md
