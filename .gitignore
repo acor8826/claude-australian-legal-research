@@ -1,6 +1,9 @@
 # Local Claude Code settings (machine-specific, not part of the skill)
 .claude/
 
+# Separate repo: https://github.com/acor8826/claude-submission-drafting
+submission-drafting/
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db
